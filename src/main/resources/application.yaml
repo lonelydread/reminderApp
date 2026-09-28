@@ -4,14 +4,17 @@ spring:
 
   security:
     oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${OAUTH2_ISSUER_URI}
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope: openid, profile, email
 
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/reminder}
-    username: ${DB_USERNAME:reminder}
-    password: ${DB_PASSWORD:reminder}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -25,25 +28,25 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
 
   mail:
-    host: ${MAIL_HOST:}
+    host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:}
-    password: ${MAIL_PASSWORD:}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
-      "[mail.smtp.auth]": ${MAIL_SMTP_AUTH:true}
-      "[mail.smtp.starttls.enable]": ${MAIL_STARTTLS_ENABLE:true}
+      "[mail.smtp.auth]": true
+      "[mail.smtp.starttls.enable]": true
       "[mail.smtp.connectiontimeout]": 5000
       "[mail.smtp.timeout]": 5000
       "[mail.smtp.writetimeout]": 5000
 
 app:
   notification:
-    batch-size: ${NOTIFICATION_BATCH_SIZE:100}
-    poll-delay-ms: ${NOTIFICATION_POLL_DELAY_MS:30000}
-    initial-delay-ms: ${NOTIFICATION_INITIAL_DELAY_MS:5000}
+    batch-size: 100
+    poll-delay-ms: 30000
+    initial-delay-ms: 5000
     email:
-      from: ${MAIL_FROM:}
+      from: ${MAIL_USERNAME}
     telegram:
-      api-url: ${TELEGRAM_API_URL:https://api.telegram.org}
-      bot-token: ${TELEGRAM_BOT_TOKEN:}
-      max-message-length: ${MAX-MESSAGE-LENGTH:4096}
+      api-url: https://api.telegram.org
+      bot-token: ${TELEGRAM_BOT_TOKEN}
+      max-message-length: 4096

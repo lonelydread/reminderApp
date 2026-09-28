@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +14,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "app_user")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor()
 public class User {
 
     @Id
@@ -34,7 +33,8 @@ public class User {
     @Setter
     private Long telegramChatId;
 
-    public User(String oauthSubject) {
+    public User(String oauthSubject, String email) {
         this.oauthSubject = oauthSubject;
+        this.email = email;
     }
 }

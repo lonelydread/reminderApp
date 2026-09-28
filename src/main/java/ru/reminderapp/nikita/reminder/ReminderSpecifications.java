@@ -3,7 +3,6 @@ package ru.reminderapp.nikita.reminder;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.Instant;
-import java.util.Locale;
 
 public class ReminderSpecifications {
 
@@ -21,7 +20,7 @@ public class ReminderSpecifications {
             }
 
             String pattern =
-                    "%" + text.trim().toLowerCase(Locale.ROOT) + "%";
+                    "%" + text.trim().toLowerCase() + "%";
 
             return builder.or(
                     builder.like(

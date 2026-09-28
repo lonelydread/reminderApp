@@ -4,8 +4,9 @@ import java.security.Principal;
 import java.time.Instant;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -37,11 +37,10 @@ public class ReminderController {
     }
 
     @PostMapping("/reminder/create")
-    @ResponseStatus(HttpStatus.CREATED)
     public ReminderResponse create(
-            Principal principal,
+            @AuthenticationPrincipal OidcUser user,
             @Valid @RequestBody ReminderRequest request) {
-        return reminderService.create(principal.getName(), request);
+        return reminderService.create(user.getSubject(), user.getEmail(), request);
     }
 
     @PutMapping("/reminder/{id}")
@@ -53,12 +52,11 @@ public class ReminderController {
     }
 
     @DeleteMapping("/reminder/delete")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(Principal principal, @RequestParam Long id) {
         reminderService.delete(principal.getName(), id);
     }
 
-    @GetMapping({"/search", "/list", "/sort", "/filtr"})
+    @GetMapping({"/search", "/list", "/sort", "/filter"})
     public PageResponse<ReminderResponse> findAll(
             Principal principal,
             @RequestParam(required = false) String query,

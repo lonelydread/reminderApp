@@ -18,7 +18,7 @@ public class TelegramNotificationSender {
 
     public TelegramNotificationSender(
             RestClient.Builder restClientBuilder,
-            @Value("${app.notification.telegram.api-url:https://api.telegram.org}") String apiUrl,
+            @Value("${app.notification.telegram.api-url:}") String apiUrl,
             @Value("${app.notification.telegram.bot-token:}") String botToken,
             @Value("${app.notification.telegram.max-message-length:4096}") int length) {
         this.restClient = restClientBuilder.baseUrl(apiUrl).build();

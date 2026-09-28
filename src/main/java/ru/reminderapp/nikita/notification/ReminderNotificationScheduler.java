@@ -21,7 +21,7 @@ public class ReminderNotificationScheduler {
     }
 
     @Scheduled(
-            fixedDelayString = "${app.notification.poll-delay-ms:30000}",
+            fixedDelayString = "${app.notification.poll-delay-ms:10000}",
             initialDelayString = "${app.notification.initial-delay-ms:5000}")
     public void sendDueNotifications() {
         Instant now = Instant.now();

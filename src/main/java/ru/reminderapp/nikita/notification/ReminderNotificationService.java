@@ -58,7 +58,7 @@ public class ReminderNotificationService {
             emailSender.send(reminder);
             reminder.markEmailNotificationProcessed(processedAt);
         }
-        catch (RuntimeException e) {
+        catch (RuntimeException ignored) {
         }
 
     }
@@ -77,7 +77,7 @@ public class ReminderNotificationService {
             telegramSender.send(reminder);
             reminder.markTelegramNotificationProcessed(processedAt);
         }
-        catch (RuntimeException e) {
+        catch (RuntimeException ignored) {
         }
     }
 }

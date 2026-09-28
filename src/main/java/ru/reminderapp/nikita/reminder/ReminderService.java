@@ -1,7 +1,6 @@
 package ru.reminderapp.nikita.reminder;
 
 import java.time.Instant;
-import java.util.Locale;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,9 +9,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
-import jakarta.persistence.criteria.Predicate;
 import ru.reminderapp.nikita.reminder.dto.ReminderRequest;
 import ru.reminderapp.nikita.reminder.dto.ReminderResponse;
 import ru.reminderapp.nikita.user.User;
@@ -31,9 +30,13 @@ public class ReminderService {
     }
 
     @Transactional
-    public ReminderResponse create(String oauthSubject, ReminderRequest request) {
+    public ReminderResponse create(String oauthSubject, String email, ReminderRequest request) {
+        if (!StringUtils.hasText(email)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "google account email is unavailable");
+        }
+
         User user = userRepository.findByOauthSubject(oauthSubject)
-                .orElseGet(() -> userRepository.save(new User(oauthSubject)));
+                .orElseGet(() -> userRepository.save(new User(oauthSubject, email)));
 
         Reminder reminder = new Reminder(
                 user,

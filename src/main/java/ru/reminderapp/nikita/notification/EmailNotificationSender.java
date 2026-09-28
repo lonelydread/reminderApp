@@ -1,11 +1,9 @@
 package ru.reminderapp.nikita.notification;
 
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import ru.reminderapp.nikita.reminder.Reminder;
 

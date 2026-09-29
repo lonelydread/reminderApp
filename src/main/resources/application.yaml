@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: reminder-app
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope: openid, profile, email
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/reminder}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      "[mail.smtp.auth]": true
+      "[mail.smtp.starttls.enable]": true
+      "[mail.smtp.connectiontimeout]": 5000
+      "[mail.smtp.timeout]": 5000
+      "[mail.smtp.writetimeout]": 5000
+
+app:
+  notification:
+    batch-size: 100
+    poll-delay-ms: 30000
+    initial-delay-ms: 5000
+    email:
+      from: ${MAIL_USERNAME}
+    telegram:
+      api-url: https://api.telegram.org
+      bot-token: ${TELEGRAM_BOT_TOKEN}
+      max-message-length: 4096
